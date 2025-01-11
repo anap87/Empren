@@ -254,6 +254,7 @@ h1 {
     color: #333;
     margin-top: 0.8cm;
     margin-left: 0.8cm;
+    margin-bottom: 0.8cm;
     padding: 0;
     background: white;
     display: none; /* Ocultar inicialmente */
