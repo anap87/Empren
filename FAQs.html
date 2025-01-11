@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes - FAQs</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="faqs.css">
+</head>
+<body>
+    <h1>Preguntas Frecuentes</h1>
+    <div class="faq-container">
+        <!-- Preguntas -->
+        <div class="faq-item">
+            <div class="faq-question">
+                <h2>¿Cuántos años debo tener para aplicar?</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                No hay una edad mínima específica, pero generalmente debes haber completado la escuela secundaria.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h2>Si estoy estudiando actualmente en una universidad, ¿igual puedo aplicar?</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Sí, puedes aplicar. Es posible transferir tus créditos dependiendo de la universidad y el programa.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h2>¿Debo esperar a graduarme para aplicar?</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                No, puedes empezar tu aplicación antes de graduarte para asegurar tu lugar.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h2>¿Necesito un buen nivel de inglés?</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Sí, muchas universidades requieren exámenes como TOEFL o IELTS para demostrar tu nivel de inglés.
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h2>¿Qué carreras académicas están disponibles?</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Hay una amplia variedad de carreras, desde ciencias, tecnología, ingeniería, matemáticas (STEM) hasta artes y humanidades.
+            </div>
+        </div>
+        <!-- Agrega más preguntas siguiendo el mismo formato -->
+    </div>
+    <script>
+        const questions = document.querySelectorAll('.faq-question');
+
+        questions.forEach((question) => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                question.classList.toggle('active');
+                if (answer.style.display === 'block') {
+                    answer.style.display = 'none';
+                } else {
+                    answer.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
