@@ -136,3 +136,66 @@ footer {
     bottom: 0; /* Lo coloca en la parte inferior de la página */
     padding: 20px;
 }
+/*FAQs pagina interna.................................................................................................................*/
+body {
+    font-family: 'Aileron', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    font-family: 'League Spartan', sans-serif;
+    color: #ad2521;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.faq-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.faq-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.faq-question {
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-question:hover {
+    background-color: #f2f2f2;
+}
+
+.faq-question h2 {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+}
+
+.faq-question .arrow {
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.faq-question.active .arrow {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    display: none;
+    padding: 15px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #666;
+    border-top: 1px solid #ddd;
+}
