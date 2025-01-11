@@ -1,0 +1,138 @@
+/* General */
+body {
+    font-family: 'Aileron', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: white;
+    color: black;
+}
+
+h1, h2, h3 {
+    font-family: 'League Spartan', sans-serif;
+    color: #ad2521;
+}
+
+.intro {
+    text-align: center;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.descripcion {
+    font-family: 'Aileron', sans-serif;
+    color: #ad2521;
+    text-align: justify;
+    margin: 0 auto;
+    max-width: 80%;
+}
+
+/* Nuestros servicios: nuestros-servicios.html................................................................................. */
+
+.introser {
+    margin-top: 150px;
+    margin-left: 2cm;
+    align-items: left;
+    text-align: justify;
+    background: #ffffff;
+}
+
+.tituloser {
+    font-family: "Cormorant Garamond", serif;
+    color: #ad2521; /* Rojo para el título */   
+    font-size: 2.5em;
+    padding: 0;
+}
+
+.descripcionser {
+    font-family: 'Aileron', sans-serif;
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 0.8cm;
+    padding: 0;
+    background: white;
+}
+
+.btn-transicion {
+    background-color: transparent;
+    color: #ad2521;
+    border: 1px solid #ad2521;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.2s; /* Animación suave */
+}
+
+.btn-transicion:hover {
+    transform: scale(1.05); /* Efecto de zoom ligero */
+}
+
+.plan-detalle {
+    margin: 2cm;
+    width: 48%; /* Ajusta el tamaño de cada bloque */
+    padding: 20px;
+    background-color: transparent;
+    border: 1px solid #ad2521;
+    text-align: left;
+    display: inline-block; /* Esto coloca los bloques en línea */
+}
+
+.oculto {
+    display: none; /* Oculta el elemento por defecto */
+}
+
+.subtituloser {
+    font-family: "Cormorant Garamond", serif;
+    color: #ad2521;
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.4cm;
+}
+
+.descriptionser {
+    font-family: 'Aileron', sans-serif;
+    font-size: 1.2em;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background: white;
+}
+
+.descripcion sin-vinetas {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+    font-family: 'Aileron', sans-serif;
+    font-size: 1.2em;
+    margin-top: 1cm;
+}
+
+.descripcion sin-vinetas li {
+    margin: 20px; /* Ajusta el espacio entre los ítems */
+}
+
+.imagen-golden {
+    position: fixed; /* La imagen permanece fija en la ventana */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta la referencia al centro del contenedor */
+    display: flex; /* Activa Flexbox si hay otros elementos dentro */
+    justify-content: center; /* Centra contenido horizontalmente */
+    align-items: center; /* Centra contenido verticalmente */
+    z-index: 0;
+}
+
+.imagen-golden img {
+    width: 50%; /* Ajusta el ancho relativo de la imagen */
+    height: auto; /* Mantiene la proporción de la imagen */
+    opacity: 0.58; /* Aplica opacidad para ver el texto */
+}
+
+footer {
+    position: relative;
+    bottom: 0; /* Lo coloca en la parte inferior de la página */
+    padding: 20px;
+}
