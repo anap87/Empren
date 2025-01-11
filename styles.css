@@ -193,10 +193,10 @@ body {
 }
 
 h1 {
-    font-family: 'League Spartan', sans-serif;
-    color: #ad2521;
-    text-align: center;
-    margin-top: 20px;
+    font-family: "Cormorant Garamond", serif;
+    color: #ad2521; /* Rojo para el título */   
+    font-size: 2.5em;
+    padding: 0;
 }
 
 .faq-container {
@@ -225,9 +225,12 @@ h1 {
 }
 
 .faq-question h2 {
-    font-size: 18px;
-    margin: 0;
+    font-family: 'Aileron', sans-serif;
+    font-size: 1.2em;
     color: #333;
+    margin-top: 0.8cm;
+    padding: 0;
+    background: white;
 }
 
 .faq-question .arrow {
@@ -240,10 +243,10 @@ h1 {
 }
 
 .faq-answer {
-    display: none;
-    padding: 15px;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #666;
-    border-top: 1px solid #ddd;
+    font-family: 'Aileron', sans-serif;
+    font-size: 1.2em;
+    color: #333;
+    margin-top: 0.8cm;
+    padding: 0;
+    background: white;
 }
