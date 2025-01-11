@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios - Kick Off Prueba</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <nav class="menu2">
+    <div class="logo2">
+      <img src="logodef.png" alt="Logo">
+    </div>
+    <ul class="menu-items2">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+      <li><a href="nuestros-servicios.html">Nuestros Servicios</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+        <section class="introser">
+            <h1 class="tituloser">Nuestros Planes Disponibles</h1>
+            <p class="descripcionser">¡Conoce que opciones tenemos para ofrecerte!</p>
+            <button class="btn-transicion" onclick="togglePlan('plan-inicial')">+</button>
+        </section>
+
+        <!-- Secciones para mostrar los planes -->
+        <section id="plan-inicial" class="plan-detalle oculto">
+            <h2 class="subtituloser">Plan Inicial</h2>
+            <p class="descriptionser">Incluye asesoramiento básico y herramientas esenciales.</p>
+            <ul class="descripcion sin-vinetas">
+                <li>Highlights (creación y promoción del perfil del jugador)</li>
+                <li>Catálogo personalizado de becas</li>
+                <li>Asesoramiento en elección de becas</li>
+                <li>(El proceso de admisión y de solicitud de visa sale por cuenta del cliente)</li>
+                <li>Firma del contrato</li>
+            </ul>
+            <button class="btn-transicion" onclick="togglePlan('plan-scholars')">&rarr;</button>
+        </section>
+
+        <section id="plan-scholars" class="plan-detalle oculto">
+            <h2 class="subtituloser">Plan Scholars</h2>
+            <p class="descriptionser">Incluye asesoría académica, cubre gastos de admisión, traducciones y evaluaciones. Además de un soporte personalizado para alcanzar tus metas.</p>
+            <ul class="descripcion sin-vinetas">
+                <li>Highlights (creación y promoción del perfil del jugador)</li>
+                <li>Catálogo personalizado de becas</li>
+                <li>Asesoramiento en elección de becas</li>
+                <li>Traducciones de documentos</li>
+                <li>Examen de inglés</li>
+                <li>Proceso de admisión</li>
+                <li>(La solicitud de visa sale por cuenta del cliente)</li>
+                <li>Firma del contrato</li>
+            </ul>
+            <button class="btn-transicion" onclick="togglePlan('plan-inicial')">&larr;</button>
+            <button class="btn-transicion" onclick="togglePlan('plan-golden')">&rarr;</button>
+        </section>
+
+        <section id="plan-golden" class="plan-detalle oculto">
+            <h2 class="subtituloser">Golden Scholars</h2>
+            <p class="descriptionser">El paquete más completo. Ideal para quienes buscan un soporte completo. Nosotros nos encargamos de todo, tú solo preparate para esta nueva aventura.</p>
+            <ul class="descripcion sin-vinetas">
+                <li>Highlights (creación y promoción del perfil del jugador)</li>
+                <li>Catálogo personalizado de becas</li>
+                <li>Asesoramiento en elección de becas</li>
+                <li>Ayuda con el proceso de admisión</li>
+                <li>Notas</li>
+                <li>Traducciones</li>
+                <li>Test de idioma</li>
+                <li>Pasaporte</li>
+                <li>Documentos financieros</li>
+                <li>Ayuda con el trámite de visa</li>
+                <li>Procesamiento acelerado de visa</li>
+                <li>Ayuda con el proceso de alojamiento</li>
+                <li>Firma del contrato</li>
+                <li>Disponibilidad 24/7 durante la estancia en USA</li>
+                <li>(En este paquete los precios de las traducciones, documentos, trámite de la visa están cubiertos)</li>
+            </ul>
+            <button class="btn-transicion" onclick="togglePlan('plan-scholars')">&larr;</button>
+        </section>
+        
+        <section class="imagen-golden">
+        <img src="imagengolden.png" alt="Descripción de la imagen" class="imagen-final-estilo">
+   
+        </section>
+</main>
+
+    <footer>
+        <p>&copy; 2024 Kick Off Scholars - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        function togglePlan(plan) {
+            const secciones = document.querySelectorAll('.plan-detalle');
+            secciones.forEach(seccion => {
+                if (seccion.id === plan) {
+                    seccion.classList.toggle('oculto');
+                } else {
+                    seccion.classList.add('oculto');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
