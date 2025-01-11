@@ -249,4 +249,10 @@ h1 {
     margin-top: 0.8cm;
     padding: 0;
     background: white;
+    display: none; /* Ocultar inicialmente */
+    transition: all 0.3s ease-in-out; /* Transición suave al abrir/cerrar */
+}
+
+.faq-answer.open {
+    display: block; /* Mostrar cuando se abre */
 }
