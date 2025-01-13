@@ -230,7 +230,7 @@ header {
   padding: 20px;
   text-align: center; /* Centra el texto */
   background-color: white; /* Fondo claro */
-  border: 2px solid #ad2521; /* Borde rojo sin esquinas redondeadas */
+  border: 1px solid #ad2521; /* Borde rojo sin esquinas redondeadas */
   margin: 20px auto; /* Espaciado exterior */
   width: 80%; /* Ajusta el ancho de la sección */
 }
@@ -238,7 +238,7 @@ header {
 #preguntas-frecuentes h2 {
   font-family: "League Spartan", sans-serif;
   font-size: 1.8em;
-  color: #000000; /* Negro */
+  color:  #ad2521; 
   margin-bottom: 10px;
 }
 
