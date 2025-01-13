@@ -187,8 +187,8 @@ header {
   padding: 20px; /* Agrega espacio alrededor de la sección */
 }
 
-#tabla-comparativa h2 {
-  justify-content: center; 
+.tabla {
+    background-color: white;
 }
 
 #tabla-comparativa th {
