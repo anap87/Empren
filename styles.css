@@ -179,6 +179,45 @@ header {
     opacity: 0.58; /* Aplica opacidad para ver el texto */
 }
 
+/*tabla */
+/* Estilo general para centrar la tabla */
+#tabla-comparativa {
+  display: flex;
+  justify-content: center; /* Centra la tabla horizontalmente */
+  padding: 20px; /* Agrega espacio alrededor de la sección */
+}
+
+#tabla-comparativa table {
+  border-collapse: separate; /* Permite añadir espacio entre celdas */
+  border-spacing: 10px; /* Espacio ligero entre celdas */
+  width: 80%; /* Ajusta el ancho de la tabla */
+  text-align: center; /* Centra el texto en las celdas */
+  font-family: "Aileron", sans-serif;
+  color: #ad2521; /* Color rojo para texto */
+}
+
+#tabla-comparativa th,
+#tabla-comparativa td {
+  border: 1px solid #ad2521; /* Borde rojo */
+  padding: 10px; /* Espaciado interno en las celdas */
+}
+
+#tabla-comparativa th {
+  background-color: #fff5f5; /* Fondo claro para encabezados */
+  font-family: "League Spartan", sans-serif; /* Fuente para los títulos */
+  font-size: 1.2em; /* Tamaño de fuente para títulos */
+}
+
+#tabla-comparativa td {
+  background-color: #ffecec; /* Fondo claro para celdas */
+  font-size: 1em; /* Tamaño de fuente para contenido */
+}
+
+#tabla-comparativa tr:nth-child(even) td {
+  background-color: #fff0f0; /* Fondo ligeramente diferente en filas pares */
+}
+
+
 footer {
     position: relative;
     bottom: 0; /* Lo coloca en la parte inferior de la página */
