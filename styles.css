@@ -214,6 +214,7 @@ header {
   background-color: transparent; /* Fondo claro para encabezados */
   font-family: "League Spartan", sans-serif; /* Fuente para los títulos */
   font-size: 1.2em; /* Tamaño de fuente para títulos */
+  color: #ad2521;
 }
 
 #tabla-comparativa td {
