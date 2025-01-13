@@ -226,6 +226,40 @@ header {
   background-color: transparent; /* Fondo ligeramente diferente en filas pares */
 }
 
+#preguntas-frecuentes {
+  padding: 20px;
+  text-align: center; /* Centra el texto */
+  background-color: white; /* Fondo claro */
+  border: 2px solid #ad2521; /* Borde rojo sin esquinas redondeadas */
+  margin: 20px auto; /* Espaciado exterior */
+  width: 80%; /* Ajusta el ancho de la sección */
+}
+
+#preguntas-frecuentes h2 {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.8em;
+  color: #000000; /* Negro */
+  margin-bottom: 10px;
+}
+
+#preguntas-frecuentes p {
+  font-family: "Aileron", sans-serif;
+  font-size: 1em;
+  color: #2F4F4F; /* Plomo oscuro */
+}
+
+#preguntas-frecuentes .link {
+  color: #ad2521; /* Rojo para resaltar el enlace */
+  font-weight: bold;
+  text-decoration: none; /* Sin subrayado */
+  transition: color 0.3s ease; /* Suave transición de color */
+}
+
+#preguntas-frecuentes .link:hover {
+  color: #2F4F4F; /* Cambia a plomo oscuro al pasar el mouse */
+  text-decoration: underline; /* Subrayado en hover */
+}
+
 
 footer {
     position: relative;
