@@ -193,7 +193,7 @@ header {
   width: 80%; /* Ajusta el ancho de la tabla */
   text-align: center; /* Centra el texto en las celdas */
   font-family: "Aileron", sans-serif;
-  color: #ad2521; /* Color rojo para texto */
+  color: #2F4F4F; /* Color rojo para texto */
 }
 
 #tabla-comparativa th,
@@ -203,18 +203,18 @@ header {
 }
 
 #tabla-comparativa th {
-  background-color: #fff5f5; /* Fondo claro para encabezados */
+  background-color: transparent; /* Fondo claro para encabezados */
   font-family: "League Spartan", sans-serif; /* Fuente para los títulos */
   font-size: 1.2em; /* Tamaño de fuente para títulos */
 }
 
 #tabla-comparativa td {
-  background-color: #ffecec; /* Fondo claro para celdas */
+  background-color: transparent; /* Fondo claro para celdas */
   font-size: 1em; /* Tamaño de fuente para contenido */
 }
 
 #tabla-comparativa tr:nth-child(even) td {
-  background-color: #fff0f0; /* Fondo ligeramente diferente en filas pares */
+  background-color: transparent; /* Fondo ligeramente diferente en filas pares */
 }
 
 
