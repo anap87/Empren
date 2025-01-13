@@ -187,6 +187,14 @@ header {
   padding: 20px; /* Agrega espacio alrededor de la sección */
 }
 
+#tabla-comparativa h2 {
+  justify-content: center; 
+}
+
+#tabla-comparativa th {
+  color: ##ad2521; 
+}
+
 #tabla-comparativa table {
   border-collapse: separate; /* Permite añadir espacio entre celdas */
   border-spacing: 10px; /* Espacio ligero entre celdas */
