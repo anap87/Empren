@@ -76,8 +76,33 @@ loginForm.addEventListener('submit', (e) => {
   }
 });
 
+
 document.querySelector('.menu-items2 a[href="login.html"]').addEventListener('click', () => {
     localStorage.removeItem('currentUser');
 });
 
+const user = users.find((u) => u.email === email);
+if (user) {
+    if (user.password === password) {
+        // Redirigir
+    } else {
+        alert('Contraseña incorrecta. Inténtalo de nuevo.');
+    }
+} else {
+    alert('El usuario no está registrado. Por favor, regístrate.');
+}
+
+function getCurrentUser() {
+    return JSON.parse(localStorage.getItem('currentUser'));
+}
+
+if (currentUser) {
+    document.getElementById('client-name').textContent = currentUser.username;
+    // Supongamos que tienes datos adicionales guardados en currentUser
+    document.getElementById('client-stage').textContent = currentUser.stage || "Inicial";
+    document.getElementById('missing-files').textContent = currentUser.missingFiles || "Ninguno";
+    document.getElementById('uploaded-files').textContent = currentUser.uploadedFiles || "Ninguno";
+    document.getElementById('paid-amount').textContent = currentUser.paidAmount || "$0";
+    document.getElementById('pending-amount').textContent = currentUser.pendingAmount || "$100";
+}
 
