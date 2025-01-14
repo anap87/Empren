@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Clientes - Kick Off Scholars</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <nav class="menu2">
+        <div class="logo2">
+            <img src="logodef.png" alt="Logo de Kick Off Scholars">
+        </div>
+        <ul class="menu-items2">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+            <li><a href="index.html#servicios">Nuestros Servicios</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="login.html">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="admin-section">
+        <h1>Administrar Cliente</h1>
+
+        <form id="search-user-form">
+            <label for="email">Correo Electrónico del Cliente:</label>
+            <input type="email" id="email" placeholder="ejemplo@correo.com" required />
+            <button type="submit">Buscar Cliente</button>
+        </form>
+
+        <div id="client-info">
+            <h2>Información del Cliente</h2>
+            <p><strong>Nombre:</strong> <span id="client-name"></span></p>
+            <p><strong>Etapa:</strong> <input type="text" id="client-stage" /></p>
+            <p><strong>Archivos Faltantes:</strong> <input type="text" id="missing-files" /></p>
+            <p><strong>Archivos Subidos:</strong> <input type="text" id="uploaded-files" /></p>
+            <p><strong>Monto Abonado:</strong> <input type="number" id="paid-amount" /></p>
+            <p><strong>Monto Por Abonar:</strong> <input type="number" id="pending-amount" /></p>
+
+            <button id="save-changes">Guardar Cambios</button>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 Kick Off Scholars - Todos los derechos reservados</p>
+</footer>
+
+<script>
+// Función para buscar y cargar los datos de un cliente
+document.getElementById('search-user-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(user => user.email === email);
+
+    if (user) {
+        // Mostrar los datos del cliente
+        document.getElementById('client-name').textContent = user.username;
+        document.getElementById('client-stage').value = user.stage;
+        document.getElementById('missing-files').value = user.missingFiles;
+        document.getElementById('uploaded-files').value = user.uploadedFiles;
+        document.getElementById('paid-amount').value = user.paidAmount;
+        document.getElementById('pending-amount').value = user.pendingAmount;
+
+        // Mostrar la sección para editar
+        document.getElementById('client-info').style.display = 'block';
+    } else {
+        alert('Usuario no encontrado');
+    }
+});
+
+// Función para guardar los cambios realizados en la información del cliente
+document.getElementById('save-changes').addEventListener('click', function () {
+    const email = document.getElementById('email').value;
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const userIndex = users.findIndex(user => user.email === email);
+
+    if (userIndex !== -1) {
+        // Actualizar los datos del cliente
+        users[userIndex].stage = document.getElementById('client-stage').value;
+        users[userIndex].missingFiles = document.getElementById('missing-files').value;
+        users[userIndex].uploadedFiles = document.getElementById('uploaded-files').value;
+        users[userIndex].paidAmount = parseFloat(document.getElementById('paid-amount').value);
+        users[userIndex].pendingAmount = parseFloat(document.getElementById('pending-amount').value);
+
+        // Guardar los cambios en localStorage
+        localStorage.setItem('users', JSON.stringify(users));
+        alert('Los cambios se han guardado correctamente.');
+    } else {
+        alert('Usuario no encontrado');
+    }
+});
+</script>
+
+</body>
+</html>
