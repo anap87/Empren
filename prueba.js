@@ -1,3 +1,23 @@
+//Usuarioooooooooooooooooooooooooo
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
+  authDomain: "kickoffscholars-88767.firebaseapp.com",
+  projectId: "kickoffscholars-88767",
+  storageBucket: "kickoffscholars-88767.firebasestorage.app",
+  messagingSenderId: "307881292779",
+  appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
 function mostrarSecciones(seccionID) {
     const secciones = document.querySelectorAll('.seccion');
     // Primero ocultamos todas las secciones
