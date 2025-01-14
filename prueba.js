@@ -76,4 +76,8 @@ loginForm.addEventListener('submit', (e) => {
   }
 });
 
+document.querySelector('.menu-items2 a[href="login.html"]').addEventListener('click', () => {
+    localStorage.removeItem('currentUser');
+});
+
 
