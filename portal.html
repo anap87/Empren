@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal del Cliente - Kick Off Scholars</title>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <nav class="menu2">
+        <div class="logo2">
+            <img src="logodef.png" alt="Logo">
+        </div>
+        <ul class="menu-items2">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+            <li><a href="index.html">Nuestros Servicios</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="login.html">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="cliente-portal" class="portal">
+        <h1>Bienvenido, <span id="client-name">Nombre del Cliente</span></h1>
+        <p>Fecha: <span id="current-date">--/--/----</span></p>
+
+        <div class="info-cliente">
+            <h2>Estado del Cliente</h2>
+            <p><strong>Etapa:</strong> <span id="client-stage">En Proceso</span></p>
+            <p><strong>Archivos Faltantes:</strong> <span id="missing-files">-</span></p>
+            <p><strong>Archivos Subidos:</strong> <span id="uploaded-files">-</span></p>
+            <p><strong>Monto Abonado:</strong> $<span id="paid-amount">0.00</span></p>
+            <p><strong>Monto Por Abonar:</strong> $<span id="pending-amount">0.00</span></p>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 Kick Off Scholars - Todos los derechos reservados</p>
+</footer>
+
+<script>
+    // Obtener datos del cliente desde localStorage
+    const userData = JSON.parse(localStorage.getItem('currentUser')) || {};
+
+    // Actualizar la información en el portal
+    document.getElementById('client-name').textContent = userData.username || 'Usuario';
+    document.getElementById('client-stage').textContent = userData.stage || 'En Proceso';
+    document.getElementById('missing-files').textContent = userData.missingFiles || 'Ninguno';
+    document.getElementById('uploaded-files').textContent = userData.uploadedFiles || 'Ninguno';
+    document.getElementById('paid-amount').textContent = userData.paidAmount || '0.00';
+    document.getElementById('pending-amount').textContent = userData.pendingAmount || '0.00';
+
+    // Mostrar fecha actual
+    const today = new Date();
+    const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+    document.getElementById('current-date').textContent = formattedDate;
+</script>
+
+</body>
+</html>
