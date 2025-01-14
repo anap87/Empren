@@ -50,3 +50,30 @@ loginForm.addEventListener('submit', (e) => {
     alert('Credenciales incorrectas. Por favor, intenta nuevamente.');
   }
 });
+
+//POrtal
+
+// Manejar inicio de sesión
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  // Verificar datos en localStorage
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  const user = users.find((u) => u.email === email && u.password === password);
+
+  if (user) {
+    // Guardar el usuario actual en localStorage para acceder a sus datos en portal.html
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+    alert(`¡Bienvenido, ${user.username}!`);
+    
+    // Redirigir a portal.html
+    window.location.href = "portal.html";
+  } else {
+    alert('Credenciales incorrectas. Por favor, intenta nuevamente.');
+  }
+});
+
+
