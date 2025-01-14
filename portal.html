@@ -54,13 +54,14 @@
             window.location.href = "login.html"; // Redirigir al login si no está autenticado
         } else {
             // Mostrar los datos del usuario en la página
-            document.getElementById('cliente-nombre').textContent = currentUser.username;
-            document.getElementById('estado-etapa').textContent = "Etapa inicial"; // Cambiar según tu lógica
-            document.getElementById('archivos-faltantes').textContent = "Por definir"; // Cambiar según tu lógica
-            document.getElementById('archivos-subidos').textContent = "Por definir"; // Cambiar según tu lógica
-            document.getElementById('monto-abonado').textContent = "$0"; // Cambiar según tu lógica
-            document.getElementById('monto-pendiente').textContent = "$100"; // Cambiar según tu lógica
-            document.getElementById('fecha-actual').textContent = new Date().toLocaleDateString();
+            document.getElementById('client-name').textContent = currentUser.username;
+            document.getElementById('client-stage').textContent = "Etapa inicial";
+            document.getElementById('missing-files').textContent = "Por definir";
+            document.getElementById('uploaded-files').textContent = "Por definir";
+            document.getElementById('paid-amount').textContent = "$0";
+            document.getElementById('pending-amount').textContent = "$100";
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+
         }
     </script>
 
