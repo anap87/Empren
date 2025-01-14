@@ -12,12 +12,12 @@
 <header>
     <nav class="menu2">
         <div class="logo2">
-            <img src="logodef.png" alt="Logo">
+            <img src="logodef.png" alt="Logo de Kick Off Scholars">
         </div>
         <ul class="menu-items2">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="quienes-somos.html">Quiénes Somos</a></li>
-            <li><a href="index.html">Nuestros Servicios</a></li>
+            <li><a href="index.html#servicios">Nuestros Servicios</a></li>
             <li><a href="contacto.html">Contacto</a></li>
             <li><a href="login.html">Cerrar Sesión</a></li>
         </ul>
@@ -45,25 +45,24 @@
 </footer>
 
 <script>
-        // Obtener el usuario actual desde localStorage
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // Obtener el usuario actual desde localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-        // Verificar si hay un usuario autenticado
-        if (!currentUser) {
-            alert('No has iniciado sesión. Por favor, inicia sesión primero.');
-            window.location.href = "login.html"; // Redirigir al login si no está autenticado
-        } else {
-            // Mostrar los datos del usuario en la página
-            document.getElementById('client-name').textContent = currentUser.username;
-            document.getElementById('client-stage').textContent = "Etapa inicial";
-            document.getElementById('missing-files').textContent = "Por definir";
-            document.getElementById('uploaded-files').textContent = "Por definir";
-            document.getElementById('paid-amount').textContent = "$0";
-            document.getElementById('pending-amount').textContent = "$100";
-            document.getElementById('current-date').textContent = new Date().toLocaleDateString();
-
-        }
-    </script>
+    // Verificar si hay un usuario autenticado
+    if (!currentUser) {
+        alert('No has iniciado sesión. Por favor, inicia sesión primero.');
+        window.location.href = "login.html"; // Redirigir al login si no está autenticado
+    } else {
+        // Mostrar los datos del usuario en la página
+        document.getElementById('client-name').textContent = currentUser.username || "Cliente";
+        document.getElementById('client-stage').textContent = "Etapa inicial";
+        document.getElementById('missing-files').textContent = "Por definir";
+        document.getElementById('uploaded-files').textContent = "Por definir";
+        document.getElementById('paid-amount').textContent = "$0";
+        document.getElementById('pending-amount').textContent = "$100";
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+    }
+</script>
 
 </body>
 </html>
