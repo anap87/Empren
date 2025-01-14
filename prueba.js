@@ -17,6 +17,20 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Verificar si el usuario está autenticado
+auth.onAuthStateChanged(user => {
+    if (user) {
+        // Si el usuario está autenticado, redirigir a la página correspondiente
+        if (user.email === 'apor2209@gmail.com') {
+            window.location.href = "admin.html";
+        } else {
+            window.location.href = "portal.html";
+        }
+    }
+});
+
+
+//Portal y manejo de usuarios
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 
