@@ -6,11 +6,6 @@
     <title>Portal del Cliente - Kick Off Scholars</title>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
-    <!-- Firebase SDKs -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
 </head>
 <body>
 
@@ -49,56 +44,8 @@
     <p>&copy; 2025 Kick Off Scholars - Todos los derechos reservados</p>
 </footer>
 
-<script type="module">
-    // Configuración de Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-        apiKey: "TU_API_KEY",
-        authDomain: "TU_AUTH_DOMAIN",
-        projectId: "TU_PROJECT_ID",
-        storageBucket: "TU_STORAGE_BUCKET",
-        messagingSenderId: "TU_MESSAGING_SENDER_ID",
-        appId: "TU_APP_ID"
-    };
-
-    // Inicializar Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // Verificar autenticación
-    onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-            alert('No has iniciado sesión. Por favor, inicia sesión primero.');
-            window.location.href = "login.html";
-            return;
-        }
-
-        try {
-            // Consultar Firestore con el UID del usuario
-            const userDoc = await getDoc(doc(db, 'clientes', user.uid));
-
-            if (!userDoc.exists()) {
-                alert('No se encontró información del usuario.');
-                return;
-            }
-
-            const userData = userDoc.data();
-            document.getElementById('client-name').textContent = userData.nombre || "Cliente";
-            document.getElementById('client-stage').textContent = userData.etapa || "Etapa desconocida";
-            document.getElementById('missing-files').textContent = userData.archivosFaltantes || "Ninguno";
-            document.getElementById('uploaded-files').textContent = userData.archivosSubidos || "Ninguno";
-            document.getElementById('paid-amount').textContent = userData.montoAbonado || "0.00";
-            document.getElementById('pending-amount').textContent = userData.montoPorAbonar || "0.00";
-            document.getElementById('current-date').textContent = new Date().toLocaleDateString();
-        } catch (error) {
-            console.error("Error al obtener datos del usuario:", error);
-        }
-    });
-</script>
+<!-- Aquí solo cargamos tu archivo js que ya tiene las importaciones correctas -->
+<script type="module" src="portal.js"></script>
 
 </body>
 </html>
