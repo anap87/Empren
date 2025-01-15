@@ -1,10 +1,9 @@
-//Usuarioooooooooooooooooooooooooo
-// Import the functions you need from the SDKs you need
+// Importa las funciones necesarias de Firebase
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, setDoc, doc } from "firebase/firestore"; 
 
-// Your web app's Firebase configuration
+// Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
   authDomain: "kickoffscholars-88767.firebaseapp.com",
@@ -14,69 +13,49 @@ const firebaseConfig = {
   appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
 };
 
-// Initialize Firebase
+// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// Verificar si el usuario está autenticado
-auth.onAuthStateChanged(user => {
-    if (user) {
-        // Si el usuario está autenticado, redirigir a la página correspondiente
-        if (user.email === 'apor2209@gmail.com') {
-            window.location.href = "admin.html";
-        } else {
-            window.location.href = "portal.html";
-        }
-    }
+// Registrar nuevo usuario
+document.getElementById("register").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    // Crea el usuario en Firebase Authentication
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Guarda información adicional del usuario en Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      username: username,
+      email: email,
+      stage: "Etapa inicial",
+      missingFiles: "Por definir",
+      uploadedFiles: "Por definir",
+      paidAmount: 0,
+      pendingAmount: 100
+    });
+
+    alert("Registro exitoso. Bienvenido a Kick Off Scholars.");
+    window.location.href = "portal.html";
+  } catch (error) {
+    console.error("Error al registrar usuario:", error.message);
+    alert("Error: " + error.message);
+  }
 });
 
-
-//Portal y manejo de usuarios
-
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-
-const auth = getAuth();
-
-// Registro de usuario
-document.getElementById('register').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const username = document.getElementById('username').value;
-
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        alert(`¡Usuario registrado exitosamente, ${username}!`);
-        document.getElementById('register').reset();
-    } catch (error) {
-        alert(`Error al registrar: ${error.message}`);
-    }
-});
-
-// Inicio de sesión
-document.getElementById('login').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        alert(`¡Bienvenido, ${user.email}!`);
-        if (user.email === 'apor2209@gmail.com') {
-            window.location.href = "admin.html"; // Redirigir al admin
-        } else {
-            window.location.href = "portal.html"; // Redirigir al portal del cliente
-        }
-    } catch (error) {
-        alert(`Error al iniciar sesión: ${error.message}`);
-    }
-});
-
-// Cerrar sesión
-document.querySelector('.menu-items2 a[href="login.html"]').addEventListener('click', async () => {
-    await signOut(auth);
-    alert('Sesión cerrada exitosamente.');
+// Manejar el estado de autenticación
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Usuario autenticado:", user.email);
+  } else {
+    console.log("No hay usuario autenticado.");
+  }
 });
 
 //Secciones nuestros servicios........................
