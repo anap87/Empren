@@ -18,12 +18,33 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Validación de entradas
+function validateInputs(username, email, password) {
+  if (!username || !email || !password) {
+    return "Todos los campos son obligatorios.";
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return "El correo electrónico no es válido.";
+  }
+  if (password.length < 8) {
+    return "La contraseña debe tener al menos 8 caracteres.";
+  }
+  return null;
+}
+
 // Registrar nuevo usuario
 document.getElementById("register").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+
+  const validationError = validateInputs(username, email, password);
+  if (validationError) {
+    alert(validationError);
+    return;
+  }
 
   try {
     // Crea el usuario en Firebase Authentication
@@ -45,7 +66,13 @@ document.getElementById("register").addEventListener("submit", async (e) => {
     window.location.href = "portal.html";
   } catch (error) {
     console.error("Error al registrar usuario:", error.message);
-    alert("Error: " + error.message);
+    if (error.code === "auth/email-already-in-use") {
+      alert("El correo electrónico ya está en uso.");
+    } else if (error.code === "auth/weak-password") {
+      alert("La contraseña es demasiado débil.");
+    } else {
+      alert("Error: " + error.message);
+    }
   }
 });
 
@@ -57,6 +84,7 @@ onAuthStateChanged(auth, (user) => {
     console.log("No hay usuario autenticado.");
   }
 });
+
 
 //Secciones nuestros servicios........................
 
