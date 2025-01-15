@@ -1,6 +1,6 @@
 // Importar las funciones necesarias de Firebase (usando la versión modular)
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 
 // Configuración de Firebase
@@ -103,6 +103,9 @@ onAuthStateChanged(auth, async (user) => {
         return;
     }
 
+    // Mostrar mensaje de carga
+    document.getElementById('cliente-portal').innerHTML = '<div class="loading">Cargando...</div>';
+
     try {
         // Consultar Firestore con el UID del usuario
         const userDoc = await getDoc(doc(db, 'clientes', user.uid));
@@ -120,8 +123,32 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById('paid-amount').textContent = userData.montoAbonado || "0.00";
         document.getElementById('pending-amount').textContent = userData.montoPorAbonar || "0.00";
         document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+
+        // Remover mensaje de carga después de completar la carga
+        document.getElementById('cliente-portal').innerHTML = `
+            <h1>Bienvenido, <span id="client-name">${userData.nombre || "Cliente"}</span></h1>
+            <p>Fecha: <span id="current-date">${new Date().toLocaleDateString()}</span></p>
+            <div class="info-cliente">
+                <h2>Estado del Cliente</h2>
+                <p><strong>Etapa:</strong> <span id="client-stage">${userData.etapa || "En Proceso"}</span></p>
+                <p><strong>Archivos Faltantes:</strong> <span id="missing-files">${userData.archivosFaltantes || "Ninguno"}</span></p>
+                <p><strong>Archivos Subidos:</strong> <span id="uploaded-files">${userData.archivosSubidos || "Ninguno"}</span></p>
+                <p><strong>Monto Abonado:</strong> $<span id="paid-amount">${userData.montoAbonado || "0.00"}</span></p>
+                <p><strong>Monto Por Abonar:</strong> $<span id="pending-amount">${userData.montoPorAbonar || "0.00"}</span></p>
+            </div>
+        `;
     } catch (error) {
         console.error("Error al obtener datos del usuario:", error);
+    }
+});
+
+// Cerrar sesión
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    try {
+        await signOut(auth);
+        window.location.href = "login.html";
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error);
     }
 });
 
