@@ -6,11 +6,6 @@
     <title>Login - Kick Off Scholars</title>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-
 </head>
 <body>
 
@@ -73,27 +68,102 @@
     <p>&copy; 2025 Kick Off Scholars - Todos los derechos reservados</p>
 </footer>
 
-<script>
-    function toggleForms(formId) {
-        const registerForm = document.getElementById('register-form');
-        const loginForm = document.getElementById('login-form');
-        
-        if (formId === 'register-form') {
-            registerForm.classList.add('activo');
-            registerForm.classList.remove('oculto');
-            loginForm.classList.add('oculto');
-            loginForm.classList.remove('activo');
-        } else if (formId === 'login-form') {
-            loginForm.classList.add('activo');
-            loginForm.classList.remove('oculto');
-            registerForm.classList.add('oculto');
-            registerForm.classList.remove('activo');
-        }
-    }
-</script>
-<script type="module" src="prueba.js"></script>
+<script type="module">
+    // Importar Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
 
+    // Configuración de Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
+        authDomain: "kickoffscholars-88767.firebaseapp.com",
+        projectId: "kickoffscholars-88767",
+        storageBucket: "kickoffscholars-88767.firebasestorage.app",
+        messagingSenderId: "307881292779",
+        appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Validación de entradas
+    function validateInputs(username, email, password) {
+        if (!username || !email || !password) {
+            return "Todos los campos son obligatorios.";
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return "El correo electrónico no es válido.";
+        }
+        if (password.length < 8) {
+            return "La contraseña debe tener al menos 8 caracteres.";
+        }
+        return null;
+    }
+
+    // Registrar nuevo usuario
+    document.getElementById("register").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+
+        const validationError = validateInputs(username, email, password);
+        if (validationError) {
+            alert(validationError);
+            return;
+        }
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Guarda información adicional del usuario en Firestore
+            await setDoc(doc(db, "clientes", user.uid), {
+                nombre: username,
+                email: email,
+                etapa: "Etapa inicial",
+                archivosFaltantes: "Por definir",
+                archivosSubidos: "Por definir",
+                montoAbonado: 0,
+                montoPorAbonar: 100
+            });
+
+            alert("Registro exitoso. Bienvenido a Kick Off Scholars.");
+            window.location.href = "portal.html";
+        } catch (error) {
+            console.error("Error al registrar usuario:", error.message);
+            if (error.code === "auth/email-already-in-use") {
+                alert("El correo electrónico ya está en uso.");
+            } else if (error.code === "auth/weak-password") {
+                alert("La contraseña es demasiado débil.");
+            } else {
+                alert("Error: " + error.message);
+            }
+        }
+    });
+
+    // Manejo del formulario de inicio de sesión
+    document.getElementById("login").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("login-email").value.trim();
+        const password = document.getElementById("login-password").value.trim();
+
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            alert(`Bienvenido de nuevo, ${user.email}`);
+            window.location.href = "portal.html"; // Redirige al portal del cliente
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error.message);
+            alert("Error: " + error.message);
+        }
+    });
+</script>
 
 </body>
 </html>
-
