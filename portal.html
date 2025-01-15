@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-
 </head>
 <body>
 
@@ -50,23 +50,50 @@
 </footer>
 
 <script>
-    // Obtener el usuario actual desde localStorage
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    // Configuración de Firebase
+    const firebaseConfig = {
+        apiKey: "TU_API_KEY",
+        authDomain: "TU_AUTH_DOMAIN",
+        projectId: "TU_PROJECT_ID",
+        storageBucket: "TU_STORAGE_BUCKET",
+        messagingSenderId: "TU_MESSAGING_SENDER_ID",
+        appId: "TU_APP_ID"
+    };
 
-    // Verificar si hay un usuario autenticado
-    if (!currentUser) {
-        alert('No has iniciado sesión. Por favor, inicia sesión primero.');
-        window.location.href = "login.html"; // Redirigir al login si no está autenticado
-    } else {
-        // Mostrar los datos del usuario en la página
-        document.getElementById('client-name').textContent = currentUser.username || "Cliente";
-        document.getElementById('client-stage').textContent = "Etapa inicial";
-        document.getElementById('missing-files').textContent = "Por definir";
-        document.getElementById('uploaded-files').textContent = "Por definir";
-        document.getElementById('paid-amount').textContent = "$0";
-        document.getElementById('pending-amount').textContent = "$100";
-        document.getElementById('current-date').textContent = new Date().toLocaleDateString();
-    }
+    // Inicializar Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Verificar autenticación
+    auth.onAuthStateChanged(async (user) => {
+        if (!user) {
+            alert('No has iniciado sesión. Por favor, inicia sesión primero.');
+            window.location.href = "login.html";
+            return;
+        }
+
+        try {
+            // Consultar Firestore con el UID del usuario
+            const userDoc = await db.collection('clientes').doc(user.uid).get();
+
+            if (!userDoc.exists) {
+                alert('No se encontró información del usuario.');
+                return;
+            }
+
+            const userData = userDoc.data();
+            document.getElementById('client-name').textContent = userData.nombre || "Cliente";
+            document.getElementById('client-stage').textContent = userData.etapa || "Etapa desconocida";
+            document.getElementById('missing-files').textContent = userData.archivosFaltantes || "Ninguno";
+            document.getElementById('uploaded-files').textContent = userData.archivosSubidos || "Ninguno";
+            document.getElementById('paid-amount').textContent = userData.montoAbonado || "0.00";
+            document.getElementById('pending-amount').textContent = userData.montoPorAbonar || "0.00";
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+        } catch (error) {
+            console.error("Error al obtener datos del usuario:", error);
+        }
+    });
 </script>
 
 </body>
