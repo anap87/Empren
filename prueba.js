@@ -85,6 +85,26 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+// Manejo del formulario de inicio de sesión
+document.getElementById("login").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+
+  try {
+    // Inicia sesión con Firebase Authentication
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    alert(`Bienvenido de nuevo, ${user.email}`);
+    window.location.href = "portal.html"; // Redirige al portal del cliente
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error.message);
+    alert("Error: " + error.message);
+  }
+});
+
+
 
 //Secciones nuestros servicios........................
 
