@@ -5,12 +5,12 @@ import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
 
 // Configuración de Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
-    authDomain: "kickoffscholars-88767.firebaseapp.com",
-    projectId: "kickoffscholars-88767",
-    storageBucket: "kickoffscholars-88767.firebasestorage.app",
-    messagingSenderId: "307881292779",
-    appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
+  apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
+  authDomain: "kickoffscholars-88767.firebaseapp.com",
+  projectId: "kickoffscholars-88767",
+  storageBucket: "kickoffscholars-88767.firebasestorage.app",
+  messagingSenderId: "307881292779",
+  appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
 };
 
 // Inicializar Firebase
