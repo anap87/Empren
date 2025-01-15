@@ -19,7 +19,7 @@
             <li><a href="quienes-somos.html">Quiénes Somos</a></li>
             <li><a href="index.html#servicios">Nuestros Servicios</a></li>
             <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="login.html">Cerrar Sesión</a></li>
+            <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
         </ul>
     </nav>
 </header>
@@ -45,7 +45,19 @@
 </footer>
 
 <!-- Aquí solo cargamos tu archivo js que ya tiene las importaciones correctas -->
-<script type="module" src="portal.js"></script>
+<script type="module" src="prueba.js"></script>
+
+<script>
+    // Cerrar sesión
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
+            await firebase.auth().signOut();
+            window.location.href = "login.html";
+        } catch (error) {
+            console.error('Error al cerrar sesión:', error);
+        }
+    });
+</script>
 
 </body>
 </html>
