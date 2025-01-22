@@ -1,16 +1,27 @@
 // Importar las funciones necesarias de Firebase (usando la versión modular)
 import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
-import { getFirestore, setDoc, doc, getDoc } from "firebase/firestore";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged, 
+    signOut 
+} from "firebase/auth";
+import { 
+    getFirestore, 
+    setDoc, 
+    doc, 
+    getDoc 
+} from "firebase/firestore";
 
 // Configuración de Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
-  authDomain: "kickoffscholars-88767.firebaseapp.com",
-  projectId: "kickoffscholars-88767",
-  storageBucket: "kickoffscholars-88767.firebasestorage.app",
-  messagingSenderId: "307881292779",
-  appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
+    apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
+    authDomain: "kickoffscholars-88767.firebaseapp.com",
+    projectId: "kickoffscholars-88767",
+    storageBucket: "kickoffscholars-88767.firebasestorage.app",
+    messagingSenderId: "307881292779",
+    appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
 };
 
 // Inicializar Firebase
@@ -34,7 +45,7 @@ function validateInputs(username, email, password) {
 }
 
 // Registrar nuevo usuario
-document.getElementById("register").addEventListener("submit", async (e) => {
+document.getElementById("register-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -66,34 +77,48 @@ document.getElementById("register").addEventListener("submit", async (e) => {
         window.location.href = "portal.html";
     } catch (error) {
         console.error("Error al registrar usuario:", error.message);
-        if (error.code === "auth/email-already-in-use") {
-            alert("El correo electrónico ya está en uso.");
-        } else if (error.code === "auth/weak-password") {
-            alert("La contraseña es demasiado débil.");
-        } else {
-            alert("Error: " + error.message);
-        }
+        alert("Error: " + error.message);
     }
 });
 
 // Manejo del formulario de inicio de sesión
-document.getElementById("login").addEventListener("submit", async (e) => {
+document.getElementById("login")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value.trim();
+    const messageEl = document.getElementById("login-message");
 
     try {
         // Inicia sesión con Firebase Authentication
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        alert(`Bienvenido de nuevo, ${user.email}`);
-        window.location.href = "portal.html"; // Redirige al portal del cliente
+        if (user.email === "apor2209@gmail.com") {
+            window.location.href = "admin.html";
+        } else {
+            window.location.href = "portal.html";
+        }
     } catch (error) {
         console.error("Error al iniciar sesión:", error.message);
-        alert("Error: " + error.message);
+        messageEl.textContent = "Error: " + error.message;
     }
 });
+
+// Recuperar contraseña
+window.resetPassword = function () {
+    const email = document.getElementById("login-email").value.trim();
+    if (email) {
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                alert('Te hemos enviado un enlace para restablecer tu contraseña.');
+            })
+            .catch((error) => {
+                alert("Error: " + error.message);
+            });
+    } else {
+        alert('Por favor ingresa un correo electrónico.');
+    }
+};
 
 // Verificar autenticación y cargar datos en el portal del cliente
 onAuthStateChanged(auth, async (user) => {
@@ -103,11 +128,7 @@ onAuthStateChanged(auth, async (user) => {
         return;
     }
 
-    // Mostrar mensaje de carga
-    document.getElementById('cliente-portal').innerHTML = '<div class="loading">Cargando...</div>';
-
     try {
-        // Consultar Firestore con el UID del usuario
         const userDoc = await getDoc(doc(db, 'clientes', user.uid));
 
         if (!userDoc.exists()) {
@@ -123,34 +144,21 @@ onAuthStateChanged(auth, async (user) => {
         document.getElementById('paid-amount').textContent = userData.montoAbonado || "0.00";
         document.getElementById('pending-amount').textContent = userData.montoPorAbonar || "0.00";
         document.getElementById('current-date').textContent = new Date().toLocaleDateString();
-
-        // Remover mensaje de carga después de completar la carga
-        document.getElementById('cliente-portal').innerHTML = `
-            <h1>Bienvenido, <span id="client-name">${userData.nombre || "Cliente"}</span></h1>
-            <p>Fecha: <span id="current-date">${new Date().toLocaleDateString()}</span></p>
-            <div class="info-cliente">
-                <h2>Estado del Cliente</h2>
-                <p><strong>Etapa:</strong> <span id="client-stage">${userData.etapa || "En Proceso"}</span></p>
-                <p><strong>Archivos Faltantes:</strong> <span id="missing-files">${userData.archivosFaltantes || "Ninguno"}</span></p>
-                <p><strong>Archivos Subidos:</strong> <span id="uploaded-files">${userData.archivosSubidos || "Ninguno"}</span></p>
-                <p><strong>Monto Abonado:</strong> $<span id="paid-amount">${userData.montoAbonado || "0.00"}</span></p>
-                <p><strong>Monto Por Abonar:</strong> $<span id="pending-amount">${userData.montoPorAbonar || "0.00"}</span></p>
-            </div>
-        `;
     } catch (error) {
-        console.error("Error al obtener datos del usuario:", error);
+        console.error("Error al obtener datos del usuario:", error.message);
     }
 });
 
 // Cerrar sesión
-document.getElementById('logout-btn').addEventListener('click', async () => {
+document.getElementById('logout-btn')?.addEventListener('click', async () => {
     try {
         await signOut(auth);
         window.location.href = "login.html";
     } catch (error) {
-        console.error('Error al cerrar sesión:', error);
+        console.error('Error al cerrar sesión:', error.message);
     }
 });
+
 
 
 //Secciones nuestros servicios........................
