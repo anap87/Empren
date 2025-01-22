@@ -6,74 +6,46 @@
     <title>Login - Kick Off Scholars</title>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .formulario { display: none; }
-        .formulario.activo { display: block; }
-        .mensaje-error { color: red; font-size: 14px; margin-top: 10px; }
-    </style>
 </head>
 <body>
-<header>
-    <nav class="menu2">
-        <div class="logo2">
-            <img src="logodef.png" alt="Logo de Kick Off Scholars">
+    <div id="auth-container">
+        <!-- Formulario de Login -->
+        <div id="login-form" class="auth-form active">
+            <h2>Iniciar Sesión</h2>
+            <form id="login">
+                <label for="login-email">Correo Electrónico:</label>
+                <input type="email" id="login-email" placeholder="ejemplo@correo.com" required />
+                
+                <label for="login-password">Contraseña:</label>
+                <input type="password" id="login-password" placeholder="Escribe tu contraseña" required />
+                
+                <button type="submit" class="btn">Entrar</button>
+            </form>
+            <p id="login-message" class="message"></p>
+            <p class="form-switch">¿No tienes cuenta? <a href="#" onclick="toggleForms('register-form')">Regístrate aquí</a>.</p>
+            <p><a href="#" onclick="resetPassword()">¿Olvidaste tu contraseña?</a></p>
         </div>
-        <ul class="menu-items2">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="quienes-somos.html">Quiénes Somos</a></li>
-            <li><a href="index.html#servicios">Nuestros Servicios</a></li>
-            <li><a href="contacto.html">Contacto</a></li>
-            <li><a href="login.html" class="active">Log in</a></li>
-        </ul>
-    </nav>
-</header>
 
-<main>
-    <section id="portal-clientes" class="portal">
-        <h1>Portal de Clientes</h1>
-        <div id="form-container">
-            <!-- Formulario de Login -->
-            <div id="login-form" class="formulario activo">
-                <h2>Iniciar Sesión</h2>
-                <form id="login">
-                    <label for="login-email">Correo Electrónico:</label>
-                    <input type="email" id="login-email" placeholder="ejemplo@correo.com" required />
-                    <label for="login-password">Contraseña:</label>
-                    <input type="password" id="login-password" placeholder="Escribe tu contraseña" required />
-                    <button type="submit" class="btn-transicion">Entrar</button>
-                </form>
-                <p id="login-message" class="mensaje-error"></p>
-                <p class="form-switch">
-                    ¿No tienes cuenta? <a href="#" onclick="toggleForms('register-form')">Regístrate aquí</a>.
-                </p>
-                <p><a href="#" onclick="resetPassword()">¿Olvidaste tu contraseña?</a></p>
-            </div>
+        <!-- Formulario de Registro -->
+        <div id="register-form" class="auth-form">
+            <h2>Registrarse</h2>
+            <form id="register">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" id="username" placeholder="Escribe tu nombre" required />
 
-            <!-- Formulario de Registro -->
-            <div id="register-form" class="formulario">
-                <h2>Registrarse</h2>
-                <form id="register">
-                    <label for="username">Nombre de Usuario:</label>
-                    <input type="text" id="username" placeholder="Escribe tu nombre" required />
-                    <label for="register-email">Correo Electrónico:</label>
-                    <input type="email" id="register-email" placeholder="ejemplo@correo.com" required />
-                    <label for="register-password">Contraseña:</label>
-                    <input type="password" id="register-password" placeholder="Crea una contraseña" required />
-                    <button type="submit" class="btn-transicion">Registrar</button>
-                </form>
-                <p id="register-message" class="mensaje-error"></p>
-                <p class="form-switch">
-                    ¿Ya tienes cuenta? <a href="#" onclick="toggleForms('login-form')">Inicia sesión aquí</a>.
-                </p>
-            </div>
+                <label for="register-email">Correo Electrónico:</label>
+                <input type="email" id="register-email" placeholder="ejemplo@correo.com" required />
+
+                <label for="register-password">Contraseña:</label>
+                <input type="password" id="register-password" placeholder="Crea una contraseña" required />
+
+                <button type="submit" class="btn">Registrar</button>
+            </form>
+            <p id="register-message" class="message"></p>
+            <p class="form-switch">¿Ya tienes cuenta? <a href="#" onclick="toggleForms('login-form')">Inicia sesión aquí</a>.</p>
         </div>
-    </section>
-</main>
+    </div>
 
-<footer>
-    <p>&copy; 2025 Kick Off Scholars - Todos los derechos reservados</p>
-</footer>
-
-<script src="prueba.js" type="module"></script>
+    <script src="prueba.js" type="module"></script>
 </body>
 </html>
