@@ -41,6 +41,7 @@
                     <input type="password" id="password" placeholder="Crea tu contraseña" required />
                     <button type="submit" class="btn-transicion">Registrarse</button>
                 </form>
+                <p id="register-message" style="color: red;"></p>
                 <p class="form-switch">
                     ¿Ya tienes cuenta? <a href="#" onclick="toggleForms('login-form')">Inicia sesión aquí</a>.
                 </p>
@@ -56,6 +57,7 @@
                     <input type="password" id="login-password" placeholder="Escribe tu contraseña" required />
                     <button type="submit" class="btn-transicion">Entrar</button>
                 </form>
+                <p id="login-message" style="color: red;"></p>
                 <p class="form-switch">
                     ¿No tienes cuenta? <a href="#" onclick="toggleForms('register-form')">Regístrate aquí</a>.
                 </p>
@@ -110,10 +112,12 @@
         const username = document.getElementById("username").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
+        const messageEl = document.getElementById("register-message");
 
         const validationError = validateInputs(username, email, password);
         if (validationError) {
-            alert(validationError);
+            messageEl.style.color = "red";
+            messageEl.textContent = validationError;
             return;
         }
 
@@ -121,7 +125,6 @@
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // Guarda información adicional del usuario en Firestore
             await setDoc(doc(db, "clientes", user.uid), {
                 nombre: username,
                 email: email,
@@ -132,16 +135,20 @@
                 montoPorAbonar: 100
             });
 
-            alert("Registro exitoso. Bienvenido a Kick Off Scholars.");
-            window.location.href = "portal.html";
+            messageEl.style.color = "green";
+            messageEl.textContent = "Registro exitoso. Redirigiendo...";
+            setTimeout(() => {
+                window.location.href = "portal.html";
+            }, 2000);
         } catch (error) {
             console.error("Error al registrar usuario:", error.message);
+            messageEl.style.color = "red";
             if (error.code === "auth/email-already-in-use") {
-                alert("El correo electrónico ya está en uso.");
+                messageEl.textContent = "El correo electrónico ya está en uso.";
             } else if (error.code === "auth/weak-password") {
-                alert("La contraseña es demasiado débil.");
+                messageEl.textContent = "La contraseña es demasiado débil.";
             } else {
-                alert("Error: " + error.message);
+                messageEl.textContent = "Error: " + error.message;
             }
         }
     });
@@ -151,18 +158,31 @@
         e.preventDefault();
         const email = document.getElementById("login-email").value.trim();
         const password = document.getElementById("login-password").value.trim();
+        const messageEl = document.getElementById("login-message");
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            alert(`Bienvenido de nuevo, ${user.email}`);
-            window.location.href = "portal.html"; // Redirige al portal del cliente
+            messageEl.style.color = "green";
+            messageEl.textContent = `Bienvenido de nuevo, ${user.email}. Redirigiendo...`;
+            setTimeout(() => {
+                window.location.href = "portal.html";
+            }, 2000);
         } catch (error) {
             console.error("Error al iniciar sesión:", error.message);
-            alert("Error: " + error.message);
+            messageEl.style.color = "red";
+            messageEl.textContent = "Error: " + error.message;
         }
     });
+
+    // Alternar formularios
+    function toggleForms(formId) {
+        document.getElementById("register-form").classList.toggle("activo", formId === "register-form");
+        document.getElementById("login-form").classList.toggle("activo", formId === "login-form");
+        document.getElementById("register-form").classList.toggle("oculto", formId !== "register-form");
+        document.getElementById("login-form").classList.toggle("oculto", formId !== "login-form");
+    }
 </script>
 
 </body>
