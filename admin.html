@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrar Clientes - Kick Off Scholars</title>
+    <title>Admin - Kick Off Scholars</title>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-
 </head>
 <body>
-
 <header>
     <nav class="menu2">
         <div class="logo2">
@@ -30,25 +24,50 @@
 </header>
 
 <main>
-    <section id="admin-section">
-        <h1>Administrar Cliente</h1>
+    <section id="admin-section" class="admin">
+        <h1>Panel de Administración</h1>
+        <div>
+            <h2>Lista de Clientes</h2>
+            <table id="clients-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Clientes listados aquí -->
+                </tbody>
+            </table>
+        </div>
 
-        <form id="search-user-form">
-            <label for="email">Correo Electrónico del Cliente:</label>
-            <input type="email" id="email" placeholder="ejemplo@correo.com" required />
-            <button type="submit">Buscar Cliente</button>
-        </form>
+        <div>
+            <h2>Editar Información del Cliente</h2>
+            <form id="edit-client-form">
+                <label for="client-name">Nombre:</label>
+                <input type="text" id="client-name" required />
 
-        <div id="client-info">
-            <h2>Información del Cliente</h2>
-            <p><strong>Nombre:</strong> <span id="client-name"></span></p>
-            <p><strong>Etapa:</strong> <input type="text" id="client-stage" /></p>
-            <p><strong>Archivos Faltantes:</strong> <input type="text" id="missing-files" /></p>
-            <p><strong>Archivos Subidos:</strong> <input type="text" id="uploaded-files" /></p>
-            <p><strong>Monto Abonado:</strong> <input type="number" id="paid-amount" /></p>
-            <p><strong>Monto Por Abonar:</strong> <input type="number" id="pending-amount" /></p>
+                <label for="client-email">Correo:</label>
+                <input type="email" id="client-email" required />
 
-            <button id="save-changes">Guardar Cambios</button>
+                <label for="client-stage">Etapa:</label>
+                <input type="text" id="client-stage" required />
+
+                <label for="client-missing-files">Archivos Faltantes:</label>
+                <input type="text" id="client-missing-files" />
+
+                <label for="client-uploaded-files">Archivos Subidos:</label>
+                <input type="text" id="client-uploaded-files" />
+
+                <label for="client-paid-amount">Monto Abonado:</label>
+                <input type="number" id="client-paid-amount" required />
+
+                <label for="client-pending-amount">Monto Por Abonar:</label>
+                <input type="number" id="client-pending-amount" required />
+
+                <button type="submit">Guardar Cambios</button>
+            </form>
         </div>
     </section>
 </main>
@@ -57,53 +76,81 @@
     <p>&copy; 2025 Kick Off Scholars - Todos los derechos reservados</p>
 </footer>
 
-<script>
-// Función para buscar y cargar los datos de un cliente
-document.getElementById('search-user-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find(user => user.email === email);
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
 
-    if (user) {
-        // Mostrar los datos del cliente
-        document.getElementById('client-name').textContent = user.username;
-        document.getElementById('client-stage').value = user.stage;
-        document.getElementById('missing-files').value = user.missingFiles;
-        document.getElementById('uploaded-files').value = user.uploadedFiles;
-        document.getElementById('paid-amount').value = user.paidAmount;
-        document.getElementById('pending-amount').value = user.pendingAmount;
+    const firebaseConfig = {
+        apiKey: "AIzaSyCVwQO4CJKFns0btIZRRch-hkJTpuaFCr0",
+        authDomain: "kickoffscholars-88767.firebaseapp.com",
+        projectId: "kickoffscholars-88767",
+        storageBucket: "kickoffscholars-88767.firebasestorage.app",
+        messagingSenderId: "307881292779",
+        appId: "1:307881292779:web:5adb5b37acbbbb11a59fae"
+    };
 
-        // Mostrar la sección para editar
-        document.getElementById('client-info').style.display = 'block';
-    } else {
-        alert('Usuario no encontrado');
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Obtener la lista de clientes desde Firestore
+    async function fetchClients() {
+        const clientsRef = collection(db, "clientes");
+        const querySnapshot = await getDocs(clientsRef);
+        const clientsList = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            const id = doc.id;
+            return { id, ...data };
+        });
+
+        // Mostrar clientes en la tabla
+        const tableBody = document.getElementById('clients-table').querySelector('tbody');
+        clientsList.forEach(client => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${client.nombre}</td>
+                <td>${client.email}</td>
+                <td><button onclick="editClient('${client.id}')">Editar</button></td>
+            `;
+            tableBody.appendChild(row);
+        });
     }
-});
 
-// Función para guardar los cambios realizados en la información del cliente
-document.getElementById('save-changes').addEventListener('click', function () {
-    const email = document.getElementById('email').value;
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userIndex = users.findIndex(user => user.email === email);
+    // Editar cliente
+    async function editClient(clientId) {
+        const clientRef = doc(db, "clientes", clientId);
+        const clientDoc = await getDoc(clientRef);
+        const client = clientDoc.data();
 
-    if (userIndex !== -1) {
-        // Actualizar los datos del cliente
-        users[userIndex].stage = document.getElementById('client-stage').value;
-        users[userIndex].missingFiles = document.getElementById('missing-files').value;
-        users[userIndex].uploadedFiles = document.getElementById('uploaded-files').value;
-        users[userIndex].paidAmount = parseFloat(document.getElementById('paid-amount').value);
-        users[userIndex].pendingAmount = parseFloat(document.getElementById('pending-amount').value);
+        document.getElementById('client-name').value = client.nombre;
+        document.getElementById('client-email').value = client.email;
+        document.getElementById('client-stage').value = client.etapa;
+        document.getElementById('client-missing-files').value = client.archivos_faltantes;
+        document.getElementById('client-uploaded-files').value = client.archivos_subidos;
+        document.getElementById('client-paid-amount').value = client.monto_abonado;
+        document.getElementById('client-pending-amount').value = client.monto_por_abonar;
 
-        // Guardar los cambios en localStorage
-        localStorage.setItem('users', JSON.stringify(users));
-        alert('Los cambios se han guardado correctamente.');
-    } else {
-        alert('Usuario no encontrado');
+        // Guardar cambios
+        document.getElementById('edit-client-form').onsubmit = async (e) => {
+            e.preventDefault();
+
+            const updatedClient = {
+                nombre: document.getElementById('client-name').value,
+                email: document.getElementById('client-email').value,
+                etapa: document.getElementById('client-stage').value,
+                archivos_faltantes: document.getElementById('client-missing-files').value,
+                archivos_subidos: document.getElementById('client-uploaded-files').value,
+                monto_abonado: parseFloat(document.getElementById('client-paid-amount').value),
+                monto_por_abonar: parseFloat(document.getElementById('client-pending-amount').value),
+            };
+
+            await updateDoc(clientRef, updatedClient);
+            alert('Información del cliente actualizada correctamente');
+        };
     }
-});
+
+    fetchClients();
 </script>
-
-    <script type="module" src="prueba.js"></script>
 </body>
 </html>
