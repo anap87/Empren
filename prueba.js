@@ -4,14 +4,14 @@ import {
     getAuth, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword, 
+    sendEmailVerification, 
     onAuthStateChanged, 
     sendPasswordResetEmail 
 } from "firebase/auth";
 import { 
     getFirestore, 
     setDoc, 
-    doc, 
-    getDoc 
+    doc 
 } from "firebase/firestore";
 
 // Configuración de Firebase
@@ -36,28 +36,7 @@ window.toggleForms = function (formId) {
     document.getElementById(formId).classList.add("activo");
 };
 
-// Iniciar sesión
-document.getElementById("login").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("login-email").value.trim();
-    const password = document.getElementById("login-password").value.trim();
-    const messageEl = document.getElementById("login-message");
-
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        if (user.email === "apor2209@gmail.com") {
-            window.location.href = "admin.html";
-        } else {
-            window.location.href = "portal.html";
-        }
-    } catch (error) {
-        messageEl.textContent = "Error: " + error.message;
-    }
-});
-
-// Registrar usuario
+// Registrar usuario con verificación de correo
 document.getElementById("register").addEventListener("submit", async (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value.trim();
@@ -68,6 +47,9 @@ document.getElementById("register").addEventListener("submit", async (e) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+
+        // Enviar correo de verificación
+        await sendEmailVerification(user);
 
         // Guardar datos adicionales en Firestore
         await setDoc(doc(db, "clientes", user.uid), {
@@ -80,8 +62,35 @@ document.getElementById("register").addEventListener("submit", async (e) => {
             montoPorAbonar: 100
         });
 
-        alert("Registro exitoso. Ahora puedes iniciar sesión.");
+        alert("Registro exitoso. Verifica tu correo antes de iniciar sesión.");
         toggleForms("login-form");
+    } catch (error) {
+        messageEl.textContent = "Error: " + error.message;
+    }
+});
+
+// Iniciar sesión
+document.getElementById("login").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value.trim();
+    const messageEl = document.getElementById("login-message");
+
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Verificar si el correo está confirmado
+        if (!user.emailVerified) {
+            messageEl.textContent = "Por favor verifica tu correo antes de iniciar sesión.";
+            return;
+        }
+
+        if (user.email === "apor2209@gmail.com") {
+            window.location.href = "admin.html";
+        } else {
+            window.location.href = "portal.html";
+        }
     } catch (error) {
         messageEl.textContent = "Error: " + error.message;
     }
@@ -102,8 +111,6 @@ window.resetPassword = function () {
         alert("Por favor ingresa un correo electrónico.");
     }
 };
-
-
 
 
 //Secciones nuestros servicios........................
