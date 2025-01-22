@@ -6,6 +6,11 @@
     <title>Login - Kick Off Scholars</title>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Aileron:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .formulario { display: none; }
+        .formulario.activo { display: block; }
+        .mensaje-error { color: red; font-size: 14px; margin-top: 10px; }
+    </style>
 </head>
 <body>
 <header>
@@ -37,7 +42,7 @@
                     <input type="password" id="login-password" placeholder="Escribe tu contraseña" required />
                     <button type="submit" class="btn-transicion">Entrar</button>
                 </form>
-                <p id="login-message"></p>
+                <p id="login-message" class="mensaje-error"></p>
                 <p class="form-switch">
                     ¿No tienes cuenta? <a href="#" onclick="toggleForms('register-form')">Regístrate aquí</a>.
                 </p>
@@ -56,7 +61,7 @@
                     <input type="password" id="register-password" placeholder="Crea una contraseña" required />
                     <button type="submit" class="btn-transicion">Registrar</button>
                 </form>
-                <p id="register-message"></p>
+                <p id="register-message" class="mensaje-error"></p>
                 <p class="form-switch">
                     ¿Ya tienes cuenta? <a href="#" onclick="toggleForms('login-form')">Inicia sesión aquí</a>.
                 </p>
